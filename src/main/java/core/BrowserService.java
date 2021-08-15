@@ -5,6 +5,7 @@ import io.github.bonigarcia.wdm.config.DriverManagerType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import utils.Waiter;
 
 import java.util.NoSuchElementException;
 
@@ -12,10 +13,9 @@ public class BrowserService {
     private WebDriver driver;
 
     public BrowserService() {
-        PropertyReader propertyReader = new PropertyReader();
 
         DriverManagerType driverManagerType;
-        switch (propertyReader.getBrowserName().toLowerCase()) {
+        switch (PropertyReader.getBrowserName().toLowerCase()) {
             case "chrome" -> {
                 driverManagerType = DriverManagerType.CHROME;
                 WebDriverManager.getInstance(driverManagerType).setup();
@@ -34,6 +34,14 @@ public class BrowserService {
 
     public WebDriver getDriver(){
         return this.driver;
+    }
+
+    public Waiter getWaiter() {
+        return new Waiter(this);
+    }
+
+    public Waiter getWaiter(int timeout) {
+        return new Waiter(this, timeout);
     }
 
 }

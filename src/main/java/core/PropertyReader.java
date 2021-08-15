@@ -4,26 +4,26 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyReader {
-    protected Properties properties;
+    protected static Properties properties;
 
-    public PropertyReader() {
+    static {
         properties = new Properties();
         try {
-            properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+            properties.load(PropertyReader.class.getClassLoader().getResourceAsStream("config.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String getUrl() {
+    public static String getUrl() {
         return properties.getProperty("base.url");
     }
 
-    public String getBrowserName() {
+    public static String getBrowserName() {
         return properties.getProperty("browser");
     }
 
-    public int getTimeOut() {
+    public static int getTimeOut() {
         return Integer.parseInt(properties.getProperty("timeout"));
     }
 }
