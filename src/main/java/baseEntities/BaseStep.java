@@ -5,9 +5,9 @@ import core.BrowserService;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 
-public abstract class BaseStep<T extends BasePage> {
+public abstract class BaseStep<Page extends BasePage> {
     protected BrowserService browserService;
-    protected T page;
+    protected Page page;
 
     @SuppressWarnings("unchecked")
     public BaseStep(BrowserService browserService, boolean openPageByUrl) {
@@ -21,11 +21,11 @@ public abstract class BaseStep<T extends BasePage> {
     }
 
     @SuppressWarnings("unchecked")
-    public T getPageInstance() {
+    public Page getPageInstance() {
         if (this.page != null) return this.page;
-        T page = null;
+        Page page = null;
         try {
-            page = ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0])
+            page = ((Class<Page>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0])
                     .getConstructor(BrowserService.class)
                     .newInstance(this.browserService);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -34,5 +34,5 @@ public abstract class BaseStep<T extends BasePage> {
         return page;
     }
 
-    public abstract BaseStep<T> openPage();
+    public abstract BaseStep<Page> openPage();
 }
