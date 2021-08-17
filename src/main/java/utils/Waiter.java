@@ -23,4 +23,8 @@ public class Waiter {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
+    public WebElement waitForElementVisibility(WebElement webElement){
+        return wait.until(ExpectedConditions.visibilityOf(webElement));
+    }
+
 }

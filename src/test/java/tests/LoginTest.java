@@ -17,13 +17,6 @@ public class LoginTest extends BaseTest {
                 .loginWithIncorrectCredentials(login, password)
                 .getPageInstance();
 
-//        try {
-//            Thread.sleep(5000L);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-        Assert.assertEquals(loginPage.getErrorMessage().getText(), "The account name or password that you have entered is incorrect.");
-
+        Assert.assertEquals(browserService.getWaiter().waitForElementVisibility(loginPage.getErrorMessage()).getText(), "The account name or password that you have entered is incorrect.");
     }
 }
