@@ -32,6 +32,6 @@ public class LoginPage extends CommonHeader {
     }
 
     public WebElement getErrorMessage(){
-        return browserService.getDriver().findElement(errorMessageBy);
+        return browserService.getWaiter().waitForVisibility(errorMessageBy);
     }
 }
