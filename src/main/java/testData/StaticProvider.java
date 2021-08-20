@@ -15,4 +15,13 @@ public class StaticProvider {
         };
     }
 
+    @DataProvider(name = "InstallAppNames")
+    public static Object[][] installationAppNames() {
+        return new Object[][]{
+                {"SteamSetup.exe", "SteamSetup.exe"},
+                {"steam.dmg", "steam.dmg"},
+                {"steam.deb", "steam_latest.deb"}
+        };
+    }
+
 }

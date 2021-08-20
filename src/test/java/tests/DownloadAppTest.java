@@ -5,54 +5,45 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.AboutPage;
 import steps.MainPageSteps;
+import testData.StaticProvider;
 
 import java.io.File;
 
 public class DownloadAppTest extends BaseTest {
 
-    @Test
-    public void downloadApplicationTest() throws InterruptedException {
+    @Test(dataProvider = "InstallAppNames", dataProviderClass = StaticProvider.class)
+    public void downloadWinAppTest(String linkFileName, String downloadedFileName) throws InterruptedException {
         MainPageSteps mainPageSteps = new MainPageSteps(browserService, true);
 
         AboutPage aboutPage = mainPageSteps
                 .proceedToAboutPageByButton()
                 .getPageInstance();
 
-        aboutPage.getInstallSteamForWindowsBtn().click();
+        aboutPage.getInstallSteamBtn(linkFileName).click();
 
-//        Thread.sleep(15000);
-
-//        File folder = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator + "DownloadedFiles");
-        File folder = new File(System.getProperty("user.dir"));
+        File folder = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator + "DownloadedFiles");
 
         boolean flag = false;
         while (!flag) {
             if (folder.listFiles().length < 1) {
                 Thread.sleep(1000);
             } else {
-
                 File[] listOfFiles = folder.listFiles();
 
                 boolean found = false;
-                File f = null;
 
                 for (File listOfFile : listOfFiles) {
                     if (listOfFile.isFile()) {
-                        String fileName = listOfFile.getName();
-                        if (listOfFile.getName().contains(".exe")) {
-//                            String fileName = listOfFile.getName();
-//                        if (listOfFile.getName().contains(".exe")) {
-                            f = new File(fileName);
+                        if (listOfFile.getName().matches(downloadedFileName)) {
+                            File f = new File(String.valueOf(listOfFile.getAbsoluteFile()));
                             found = true;
+                            f.delete();
                         }
                     }
                 }
                 Assert.assertTrue(found, "Downloaded document is not found");
-                f.deleteOnExit();
                 flag = true;
             }
         }
-
-
     }
 }
