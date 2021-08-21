@@ -23,6 +23,10 @@ public class DownloadAppTest extends BaseTest {
 
         File folder = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator + "DownloadedFiles");
 
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
         boolean flag = false;
         while (!flag) {
             if (folder.listFiles().length < 1) {
