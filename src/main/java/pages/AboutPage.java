@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class AboutPage extends CommonHeader {
-    private static final String installSteamBtn = "//div[@id = 'about_greeting']/descendant::a[contains(@href, 'https://cdn.akamai.steamstatic.com/client/installer/%s')]";
+    private static final String installSteamBtn = "//div[@id = 'about_greeting']//a[contains(@href, '%s')]";
 
     private static final By mainInstallSteamBtnBy = By.xpath("//div[@id = 'about_greeting']//child::a[@class = 'about_install_steam_link']");
 
