@@ -1,8 +1,10 @@
 package pages;
 
 import core.BrowserService;
+import models.GameItemFromSearchResults;
 import models.GenreCatalogGameItem;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import utils.Utils;
 
@@ -18,6 +20,12 @@ public class GameGenrePage extends CommonHeader {
     private static final By winPlatformIconBy = By.className("win");
     private static final By macPlatformIconBy = By.className("mac");
     private static final By linuxPlatformIconBy = By.className("linux");
+    private static final By searchInputBy = By.id("store_nav_search_term");
+    private static final By searchResultsBy = By.id("searchterm_options");
+    private static final By searchResultItemsBy = By.cssSelector("#searchterm_options a");
+    private static final By itemNameFromSearchResultsInputBy = By.className("match_name");
+    private static final By itemFinalPriceFromSearchResultsInputBy = By.className("match_price");
+
 
     public GameGenrePage(BrowserService browserService) {
         super(browserService, null);
@@ -32,7 +40,7 @@ public class GameGenrePage extends CommonHeader {
         return this.browserService.getDriver().findElement(gamesTableBy).findElements(By.tagName("a"));
     }
 
-    public List<GenreCatalogGameItem> collectGameDataFromTable(int numberOfGameItems) {
+    public List<GenreCatalogGameItem> getGameItemsFromTable(int numberOfGameItems) {
         List<GenreCatalogGameItem> genreCatalogGameItems = new ArrayList<>();
         if (numberOfGameItems > getGameItems().size()) {
             numberOfGameItems = getGameItems().size();
@@ -45,7 +53,7 @@ public class GameGenrePage extends CommonHeader {
             GenreCatalogGameItem genreCatalogGameItem = new GenreCatalogGameItem(
                     getGameItems().get(i).findElement(gamesNameBy).getText(),
                     getPriceWithDiscountIfExists(getGameItems().get(i)),
-                    getFinalPrice(getGameItems().get(i)),
+                    getFinalPrice(getGameItems().get(i), gameFinalPriceBy),
                     getDiscountIfExists(getGameItems().get(i)),
                     getPlatforms(getGameItems().get(i))
             );
@@ -54,8 +62,8 @@ public class GameGenrePage extends CommonHeader {
         return genreCatalogGameItems;
     }
 
-    private Double getFinalPrice(WebElement gameItem) {
-        String gamePrice = gameItem.findElement(gameFinalPriceBy).getText();
+    private Double getFinalPrice(WebElement gameItem, By gameFinalPriceLocator) {
+        String gamePrice = gameItem.findElement(gameFinalPriceLocator).getText();
         if (gamePrice.contains("Free")) {
             return 0.0;
         } else {
@@ -91,5 +99,29 @@ public class GameGenrePage extends CommonHeader {
             platformList.add(GenreCatalogGameItem.Platform.LINUX);
         }
         return platformList;
+    }
+
+    public WebElement getSearchInput(){
+        return this.browserService.getDriver().findElement(searchInputBy);
+    }
+
+    public WebElement getSearchResults(){
+        return this.browserService.getDriver().findElement(searchResultsBy);
+    }
+
+    private List<WebElement> getSearchResultItems() {
+        return browserService.getWaiter().waitForVisibilityOfAllElements(searchResultItemsBy);
+    }
+
+    public GameItemFromSearchResults getFirstFoundGameItemFormSearchInput(){
+        GameItemFromSearchResults item = new GameItemFromSearchResults(
+                getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy).getText(),
+                getFinalPrice(getSearchResultItems().get(0), itemFinalPriceFromSearchResultsInputBy)
+        );
+
+
+//        JavascriptExecutor js = (JavascriptExecutor) browserService.getDriver();
+//        js.executeScript("arguments[0].setAttribute('style', 'display: none;');", getSearchResults());
+        return item;
     }
 }
