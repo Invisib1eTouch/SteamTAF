@@ -28,4 +28,8 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
     private void showSearchResultsByJsScript() {
         js.executeScript("arguments[0].setAttribute('style', 'display: block;');", this.page.getSearchResults());
     }
+
+    public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(GenreCatalogGameItem genreCatalogGameItem){
+        genreCatalogGameItem
+    }
 }
