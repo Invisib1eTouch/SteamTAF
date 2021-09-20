@@ -17,4 +17,8 @@ public class Utils {
             return Double.parseDouble(m.group(0));
         throw new IllegalStateException(String.format("No pattern match found in provided text: %s", text));
     }
+
+    public static String replaceStringWithoutTradeMark(String text){
+        return text.replace("™", "");
+    }
 }

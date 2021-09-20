@@ -39,11 +39,11 @@ public class GameDescriptionTest extends BaseTest {
             gameGenrePageSteps.findGameItemBySearchInput(gameItem);
             GameItemFromSearchResults gameItemFromSearchResults = gameGenrePage
                     .getFirstFoundGameItemFromSearchInput();
-            Assert.assertEquals(gameItem.getName(), gameItemFromSearchResults.getName());
-            Assert.assertEquals(gameItem.getFinalPrice(), gameItemFromSearchResults.getPrice());
-            System.out.println(gameItem.getName() + " " + gameItemFromSearchResults.getName() + "\n" + gameItem.getFinalPrice() + " " + gameItemFromSearchResults.getPrice());
 
-            gameGenrePageSteps.proceedToGameDetailsPageBySearchResults();
+            Assert.assertEquals(gameItem.getName(), gameItemFromSearchResults.getNameAsString());
+            Assert.assertEquals(gameItem.getFinalPrice(), gameItemFromSearchResults.getFinalPriceAsDouble());
+
+            gameGenrePageSteps.proceedToGameDetailsPageBySearchResults(gameItem);
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

@@ -51,7 +51,7 @@ public class GameGenrePage extends CommonHeader {
 
         for (int i = 0; i < numberOfGameItems; i++) {
             GenreCatalogGameItem genreCatalogGameItem = new GenreCatalogGameItem(
-                    getGameItems().get(i).findElement(gamesNameBy).getText(),
+                    Utils.replaceStringWithoutTradeMark(getGameItems().get(i).findElement(gamesNameBy).getText()),
                     getPriceWithDiscountIfExists(getGameItems().get(i)),
                     getFinalPrice(getGameItems().get(i), gameFinalPriceBy),
                     getDiscountIfExists(getGameItems().get(i)),
@@ -64,6 +64,15 @@ public class GameGenrePage extends CommonHeader {
 
     private Double getFinalPrice(WebElement gameItem, By gameFinalPriceLocator) {
         String gamePrice = gameItem.findElement(gameFinalPriceLocator).getText();
+        if (gamePrice.contains("Free")) {
+            return 0.0;
+        } else {
+            return Utils.getNumberFormString(gamePrice);
+        }
+    }
+
+    public static Double getFinalPrice(WebElement gameFinalPriceLocator) {
+        String gamePrice = gameFinalPriceLocator.getText();
         if (gamePrice.contains("Free")) {
             return 0.0;
         } else {
@@ -122,8 +131,8 @@ public class GameGenrePage extends CommonHeader {
 //    }
     public GameItemFromSearchResults getFirstFoundGameItemFromSearchInput(){
         return new GameItemFromSearchResults(
-                getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy).getText(),
-                getFinalPrice(getSearchResultItems().get(0), itemFinalPriceFromSearchResultsInputBy)
+                getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy),
+                getSearchResultItems().get(0).findElement(itemFinalPriceFromSearchResultsInputBy)
         );
     }
 }
