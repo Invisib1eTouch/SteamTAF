@@ -29,7 +29,8 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         js.executeScript("arguments[0].setAttribute('style', 'display: block;');", this.page.getSearchResults());
     }
 
-    public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(GenreCatalogGameItem genreCatalogGameItem){
-        genreCatalogGameItem
+    public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(){
+        this.page.getSearchResultItems().get(0).click();
+        return new GameDetailsPageSteps(browserService);
     }
 }

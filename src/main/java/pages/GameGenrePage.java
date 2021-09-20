@@ -109,19 +109,21 @@ public class GameGenrePage extends CommonHeader {
         return this.browserService.getDriver().findElement(searchResultsBy);
     }
 
-    private List<WebElement> getSearchResultItems() {
+    public List<WebElement> getSearchResultItems() {
         return browserService.getWaiter().waitForVisibilityOfAllElements(searchResultItemsBy);
     }
 
-    public GameItemFromSearchResults getFirstFoundGameItemFormSearchInput(){
-        GameItemFromSearchResults item = new GameItemFromSearchResults(
+//    public GameItemFromSearchResults getFirstFoundGameItemFromSearchInput(){
+//        GameItemFromSearchResults item = new GameItemFromSearchResults(
+//                getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy).getText(),
+//                getFinalPrice(getSearchResultItems().get(0), itemFinalPriceFromSearchResultsInputBy)
+//        );
+//        return item;
+//    }
+    public GameItemFromSearchResults getFirstFoundGameItemFromSearchInput(){
+        return new GameItemFromSearchResults(
                 getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy).getText(),
                 getFinalPrice(getSearchResultItems().get(0), itemFinalPriceFromSearchResultsInputBy)
         );
-
-
-//        JavascriptExecutor js = (JavascriptExecutor) browserService.getDriver();
-//        js.executeScript("arguments[0].setAttribute('style', 'display: none;');", getSearchResults());
-        return item;
     }
 }

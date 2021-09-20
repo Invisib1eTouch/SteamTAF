@@ -38,16 +38,17 @@ public class GameDescriptionTest extends BaseTest {
         for (GenreCatalogGameItem gameItem : genreCatalogGameItems) {
             gameGenrePageSteps.findGameItemBySearchInput(gameItem);
             GameItemFromSearchResults gameItemFromSearchResults = gameGenrePage
-                    .getFirstFoundGameItemFormSearchInput();
+                    .getFirstFoundGameItemFromSearchInput();
             Assert.assertEquals(gameItem.getName(), gameItemFromSearchResults.getName());
             Assert.assertEquals(gameItem.getFinalPrice(), gameItemFromSearchResults.getPrice());
             System.out.println(gameItem.getName() + " " + gameItemFromSearchResults.getName() + "\n" + gameItem.getFinalPrice() + " " + gameItemFromSearchResults.getPrice());
 
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            gameGenrePageSteps.proceedToGameDetailsPageBySearchResults();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
