@@ -43,7 +43,11 @@ public class GameDescriptionTest extends BaseTest {
             Assert.assertEquals(gameItem.getName(), gameItemFromSearchResults.getNameAsString());
             Assert.assertEquals(gameItem.getFinalPrice(), gameItemFromSearchResults.getFinalPriceAsDouble());
 
-            gameGenrePageSteps.proceedToGameDetailsPageBySearchResults(gameItem);
+            gameGenrePageSteps
+                    .proceedToGameDetailsPageBySearchResults(gameItem)
+                    .applyDateOfBirthIfPresent();
+
+
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
