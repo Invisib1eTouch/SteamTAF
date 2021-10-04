@@ -4,7 +4,6 @@ import core.BrowserService;
 import models.GameItemFromSearchResults;
 import models.GenreCatalogGameItem;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import utils.Utils;
 
@@ -63,6 +62,9 @@ public class GameGenrePage extends CommonHeader {
     }
 
     private Double getFinalPrice(WebElement gameItem, By gameFinalPriceLocator) {
+        if (gameItem.findElements(gameFinalPriceLocator).size() == 0) {
+            return 0.0;
+        }
         String gamePrice = gameItem.findElement(gameFinalPriceLocator).getText();
         if (gamePrice.contains("Free")) {
             return 0.0;
@@ -110,11 +112,11 @@ public class GameGenrePage extends CommonHeader {
         return platformList;
     }
 
-    public WebElement getSearchInput(){
+    public WebElement getSearchInput() {
         return this.browserService.getDriver().findElement(searchInputBy);
     }
 
-    public WebElement getSearchResults(){
+    public WebElement getSearchResults() {
         return this.browserService.getDriver().findElement(searchResultsBy);
     }
 
@@ -122,14 +124,7 @@ public class GameGenrePage extends CommonHeader {
         return browserService.getWaiter().waitForVisibilityOfAllElements(searchResultItemsBy);
     }
 
-//    public GameItemFromSearchResults getFirstFoundGameItemFromSearchInput(){
-//        GameItemFromSearchResults item = new GameItemFromSearchResults(
-//                getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy).getText(),
-//                getFinalPrice(getSearchResultItems().get(0), itemFinalPriceFromSearchResultsInputBy)
-//        );
-//        return item;
-//    }
-    public GameItemFromSearchResults getFirstFoundGameItemFromSearchInput(){
+    public GameItemFromSearchResults getFirstFoundGameItemFromSearchInput() {
         return new GameItemFromSearchResults(
                 getSearchResultItems().get(0).findElement(itemNameFromSearchResultsInputBy),
                 getSearchResultItems().get(0).findElement(itemFinalPriceFromSearchResultsInputBy)

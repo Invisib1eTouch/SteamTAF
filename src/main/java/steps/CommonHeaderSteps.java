@@ -10,12 +10,12 @@ public abstract class CommonHeaderSteps<Page extends CommonHeader> extends BaseS
         super(browserService, openPageByUrl);
     }
 
-    public LoginPageSteps proceedToLoginPageByButton(){
+    public LoginPageSteps proceedToLoginPageByButton() {
         this.page.getLoginBtn().click();
         return new LoginPageSteps(browserService, false);
     }
 
-    public AboutPageSteps proceedToAboutPageByButton(){
+    public AboutPageSteps proceedToAboutPageByButton() {
         this.page.getInstallSteamBtn().click();
         return new AboutPageSteps(browserService, false);
     }

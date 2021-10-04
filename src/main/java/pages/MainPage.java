@@ -23,7 +23,7 @@ public class MainPage extends CommonHeader {
         return browserService.getDriver().findElement(categoryBtnBy);
     }
 
-    public List<WebElement> getGenresLinks(){
+    public List<WebElement> getGenresLinks() {
         return browserService.getDriver().findElements(genresLinksBy);
     }
 }

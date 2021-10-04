@@ -43,16 +43,23 @@ public class GameDescriptionTest extends BaseTest {
             Assert.assertEquals(gameItem.getName(), gameItemFromSearchResults.getNameAsString());
             Assert.assertEquals(gameItem.getFinalPrice(), gameItemFromSearchResults.getFinalPriceAsDouble());
 
-            gameGenrePageSteps
+            GenreCatalogGameItem gameDetailsItem = gameGenrePageSteps
                     .proceedToGameDetailsPageBySearchResults(gameItem)
-                    .applyDateOfBirthIfPresent();
+                    .applyDateOfBirthIfPresent()
+                    .getPageInstance()
+                    .getGameItemFromDetailPage();
 
 
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+           Assert.assertEquals(gameItem.getName(), gameDetailsItem.getName());
+           Assert.assertEquals(gameItem.getOriginalPrice(), gameDetailsItem.getOriginalPrice());
+           Assert.assertEquals(gameItem.getFinalPrice(), gameDetailsItem.getFinalPrice());
+           Assert.assertEquals(gameItem.getDiscount(), gameDetailsItem.getDiscount());
+           Assert.assertEquals(gameItem.getPlatforms(), gameDetailsItem.getPlatforms());
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 }

@@ -15,7 +15,7 @@ public class LoginPageSteps extends CommonHeaderSteps<LoginPage> {
         return this;
     }
 
-    public LoginPageSteps loginWithIncorrectCredentials(String login, String password){
+    public LoginPageSteps loginWithIncorrectCredentials(String login, String password) {
         this.page.getSteamAccountNameInput().sendKeys(login);
         this.page.getPasswordInput().sendKeys(password);
         this.page.getSignInBtn().click();

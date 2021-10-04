@@ -21,17 +21,19 @@ public class Waiter {
         this.wait = new WebDriverWait(browserService.getDriver(), timeout);
     }
 
-    public WebElement waitForVisibility(By by){
+    public WebElement waitForVisibility(By by) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
-    public List<WebElement> waitForVisibilityOfAllElements(By by){
+
+    public List<WebElement> waitForVisibilityOfAllElements(By by) {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
     }
-    public List<WebElement> waitForVisibilityOfAllElements(List<WebElement> webElement){
+
+    public List<WebElement> waitForVisibilityOfAllElements(List<WebElement> webElement) {
         return wait.until(ExpectedConditions.visibilityOfAllElements(webElement));
     }
 
-    public WebElement waitForElementVisibility(WebElement webElement){
+    public WebElement waitForElementVisibility(WebElement webElement) {
         return wait.until(ExpectedConditions.visibilityOf(webElement));
     }
 }

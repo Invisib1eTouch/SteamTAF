@@ -11,14 +11,14 @@ public class Utils {
         return RandomUtils.nextInt(minInclusive, maxExclusive);
     }
 
-    public static Double getNumberFormString(String text){
+    public static Double getNumberFormString(String text) {
         Matcher m = Pattern.compile("\\d+(?:\\.?\\d*)").matcher(Objects.requireNonNull(text));
         if (m.find())
             return Double.parseDouble(m.group(0));
         throw new IllegalStateException(String.format("No pattern match found in provided text: %s", text));
     }
 
-    public static String replaceStringWithoutTradeMark(String text){
+    public static String replaceStringWithoutTradeMark(String text) {
         return text.replace("™", "");
     }
 }

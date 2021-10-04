@@ -18,7 +18,7 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         return null;
     }
 
-    public GameGenrePageSteps findGameItemBySearchInput(GenreCatalogGameItem genreCatalogGameItem){
+    public GameGenrePageSteps findGameItemBySearchInput(GenreCatalogGameItem genreCatalogGameItem) {
 //        showSearchResultsByJsScript();
         this.page.getSearchInput().clear();
         this.page.getSearchInput().sendKeys(genreCatalogGameItem.getName());
@@ -29,8 +29,8 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         js.executeScript("arguments[0].setAttribute('style', 'display: block;');", this.page.getSearchResults());
     }
 
-    public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(GenreCatalogGameItem genreCatalogGameItem){
-        if (this.page.getFirstFoundGameItemFromSearchInput().getNameAsString().equals(genreCatalogGameItem.getName())){
+    public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(GenreCatalogGameItem genreCatalogGameItem) {
+        if (this.page.getFirstFoundGameItemFromSearchInput().getNameAsString().equals(genreCatalogGameItem.getName())) {
             this.page.getFirstFoundGameItemFromSearchInput().getName().click();
             return new GameDetailsPageSteps(browserService);
         } else {

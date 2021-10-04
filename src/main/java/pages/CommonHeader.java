@@ -13,11 +13,11 @@ public abstract class CommonHeader extends BasePage {
         super(browserService, path);
     }
 
-    public WebElement getLoginBtn(){
+    public WebElement getLoginBtn() {
         return browserService.getDriver().findElement(loginBtnBy);
     }
 
-    public WebElement getInstallSteamBtn(){
+    public WebElement getInstallSteamBtn() {
         return browserService.getDriver().findElement(installSteamBtnBy);
     }
 }
