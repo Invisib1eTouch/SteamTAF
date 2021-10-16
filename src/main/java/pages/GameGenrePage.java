@@ -75,7 +75,7 @@ public class GameGenrePage extends CommonHeader {
 
     public static Double getFinalPrice(WebElement gameFinalPriceLocator) {
         String gamePrice = gameFinalPriceLocator.getText();
-        if (gamePrice.contains("Free")) {
+        if (gamePrice.contains("Free") || gamePrice.equals("")) {
             return 0.0;
         } else {
             return Utils.getNumberFormString(gamePrice);

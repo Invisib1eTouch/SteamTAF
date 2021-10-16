@@ -13,14 +13,12 @@ import java.util.List;
 public class GameDetailsPage extends CommonHeader {
     private static final By ageDropdownBy = By.id("ageYear");
     private static final By viewPageBtnBy = By.xpath("//a[@onclick = 'ViewProductPage(); return false;']");
-//    private static final By gameAreaPurchaseGameItemBy = By.className("game_area_purchase_game");
-//    private static final By gameAreaPurchaseGameItemBy = By.xpath("//div[@class='game_area_purchase_game' and not(contains(@class, 'demo_above_purchase'))]");
+    private static final By pageContentBy = By.className("page_content_ctn");
     private static final By gameAreaPurchaseGameItemBy = By.xpath("//div[@class = 'game_area_purchase_game' or @class = 'game_area_purchase_game ']");
     private static final By gameNameFromPurchaseGameItemBy = By.tagName("h1");
     private static final By gameFinalPriceBy = By.className("discount_final_price");
     private static final By gameOriginalPriceBy = By.className("discount_original_price");
-    //    private static final By gamePurchasePriceBy = By.className("game_purchase_price price");
-    private static final By gamePurchasePriceBy = By.xpath("//div[contains(@class, 'game_purchase_price')]");
+    private static final By gamePurchasePriceBy = By.cssSelector(".game_purchase_price.price");
     private static final By gameDiscountBy = By.className("discount_pct");
     private static final By winPlatformIconBy = By.className("win");
     private static final By macPlatformIconBy = By.className("mac");
@@ -32,7 +30,7 @@ public class GameDetailsPage extends CommonHeader {
 
     @Override
     protected By getIndicatorThatPageOpenedElementLocator() {
-        return gameAreaPurchaseGameItemBy;
+        return pageContentBy;
     }
 
     public Select getAgeDropdown() {
@@ -47,17 +45,25 @@ public class GameDetailsPage extends CommonHeader {
         return viewPageBtnBy;
     }
 
-    public List<WebElement> getGameAreaPurchaseGameItem() {
-        return browserService.getDriver().findElements(gameAreaPurchaseGameItemBy);
+    public By getGameAreaPurchaseGameItemBy() {
+        return gameAreaPurchaseGameItemBy;
+    }
+
+    public WebElement getGameAreaPurchaseGameItem() {
+        return browserService.getDriver().findElements(gameAreaPurchaseGameItemBy).get(0);
     }
 
     public GenreCatalogGameItem getGameItemFromDetailPage() {
+
         return new GenreCatalogGameItem(
-                Utils.replaceStringWithoutTradeMark(getGameAreaPurchaseGameItem().get(0).findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^\\w+\\s", "")),
-                getPriceWithDiscountIfExists(getGameAreaPurchaseGameItem().get(0)),
-                getFinalPrice(getGameAreaPurchaseGameItem().get(0)),
-                getDiscountIfExists(getGameAreaPurchaseGameItem().get(0)),
-                getPlatforms(getGameAreaPurchaseGameItem().get(0))
+                /**
+                 * Create get() for extracting name from getGameAreaPurchaseGameItem()
+                 * */
+                Utils.replaceStringWithoutTradeMark(getGameAreaPurchaseGameItem().findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^\\w+\\s", "")),
+                getPriceWithDiscountIfExists(getGameAreaPurchaseGameItem()),
+                getFinalPrice(getGameAreaPurchaseGameItem()),
+                getDiscountIfExists(getGameAreaPurchaseGameItem()),
+                getPlatforms(getGameAreaPurchaseGameItem())
         );
     }
 
@@ -81,14 +87,6 @@ public class GameDetailsPage extends CommonHeader {
         } else {
             return 0.0;
         }
-
-
-//        String gamePrice = gameItem.findElement(gameFinalPriceLocator).getText();
-//        if (gamePrice.contains("Free")) {
-//            return 0.0;
-//        } else {
-//            return Utils.getNumberFormString(gamePrice);
-//        }
     }
 
     private Double getDiscountIfExists(WebElement gameItem) {

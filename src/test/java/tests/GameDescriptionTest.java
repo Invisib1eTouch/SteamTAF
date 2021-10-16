@@ -21,17 +21,7 @@ public class GameDescriptionTest extends BaseTest {
                 .proceedToRandomGameGenreByClick()
                 .getPageInstance();
 
-
         List<GenreCatalogGameItem> genreCatalogGameItems = gameGenrePage.getGameItemsFromTable(3);
-
-//        for (GenreCatalogGameItem item : genreCatalogGameItems) {
-//            System.out.println("Name: " + item.getName());
-//            System.out.println("Price original: " + item.getOriginalPrice());
-//            System.out.println("Price final: " + item.getFinalPrice());
-//            System.out.println("Discount: " + item.getDiscount());
-//            System.out.println("Platforms: " + item.getPlatforms());
-//            System.out.println("");
-//        }
 
         GameGenrePageSteps gameGenrePageSteps = new GameGenrePageSteps(browserService);
 
@@ -49,17 +39,11 @@ public class GameDescriptionTest extends BaseTest {
                     .getPageInstance()
                     .getGameItemFromDetailPage();
 
-
-           Assert.assertEquals(gameItem.getName(), gameDetailsItem.getName());
-           Assert.assertEquals(gameItem.getOriginalPrice(), gameDetailsItem.getOriginalPrice());
-           Assert.assertEquals(gameItem.getFinalPrice(), gameDetailsItem.getFinalPrice());
-           Assert.assertEquals(gameItem.getDiscount(), gameDetailsItem.getDiscount());
-           Assert.assertEquals(gameItem.getPlatforms(), gameDetailsItem.getPlatforms());
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            Assert.assertEquals(gameItem.getName(), gameDetailsItem.getName());
+            Assert.assertEquals(gameItem.getOriginalPrice(), gameDetailsItem.getOriginalPrice());
+            Assert.assertEquals(gameItem.getFinalPrice(), gameDetailsItem.getFinalPrice());
+            Assert.assertEquals(gameItem.getDiscount(), gameDetailsItem.getDiscount());
+            Assert.assertEquals(gameItem.getPlatforms(), gameDetailsItem.getPlatforms());
         }
     }
 }

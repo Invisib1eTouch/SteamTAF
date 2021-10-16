@@ -19,6 +19,7 @@ public class GameDetailsPageSteps extends CommonHeaderSteps<GameDetailsPage> {
         if (browserService.getDriver().findElements(this.page.getViewPageBtnBy()).size() > 0) {
             this.page.getAgeDropdown().selectByValue(Integer.toString(Year.now().getValue() - 18));
             this.page.getViewPageBnt().click();
+            browserService.getWaiter().waitForVisibility(this.page.getGameAreaPurchaseGameItemBy());
         }
         return this;
     }
