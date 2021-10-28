@@ -11,16 +11,11 @@ import org.testng.ITestResult;
 public class Listener implements ITestListener {
 
     @Override
-    public void onTestStart(ITestResult result) {
-        System.out.println("Test has been started...");
-    }
-
-    @Override
     public void onTestFailure(ITestResult result) {
         Object currentClass = result.getInstance();
         WebDriver driver = ((BaseTest) currentClass).browserService.getDriver();
         byte[] scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-//        saveScreenshot(scrFile);
+        saveScreenshot(scrFile);
 
     }
     @Override
@@ -28,7 +23,7 @@ public class Listener implements ITestListener {
         Object currentClass = result.getInstance();
         WebDriver driver = ((BaseTest) currentClass).browserService.getDriver();
         byte[] scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-//        saveScreenshot(scrFile);
+        saveScreenshot(scrFile);
     }
 
     @Attachment(value = "Page screenshot", type = "image/png")

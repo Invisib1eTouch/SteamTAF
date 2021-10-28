@@ -10,20 +10,12 @@
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>io.qameta.allure</groupId>-->
-<!--                <artifactId>allure-maven</artifactId>-->
-<!--                <version>2.10.0</version>-->
-<!--                <configuration>-->
-<!--                    <reportVersion>2.10.0</reportVersion>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <reportVersion>2.10.0</reportVersion>
                 </configuration>
             </plugin>
             <plugin>
