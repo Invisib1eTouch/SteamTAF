@@ -7,6 +7,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.events.EventFiringDecorator;
+import org.openqa.selenium.support.events.WebDriverListener;
+import utils.Listener;
 import utils.Waiter;
 
 import java.io.File;
@@ -33,7 +36,8 @@ public class BrowserService {
             optionsChrome.addArguments("--start-maximized");
             optionsChrome.addArguments("--safebrowsing-disable-download-protection");
             optionsChrome.addArguments("safebrowsing-disable-extension-blacklist");
-            driver = new ChromeDriver(optionsChrome);
+            WebDriverListener listener = new Listener();
+            driver = new EventFiringDecorator(listener).decorate(new ChromeDriver(optionsChrome));
         } else if (browserType.equalsIgnoreCase("firefox")) {
             driverManagerType = DriverManagerType.FIREFOX;
             WebDriverManager.getInstance(driverManagerType).setup();
@@ -44,7 +48,8 @@ public class BrowserService {
             optionsFirefox.addPreference("browser.download.viewableInternally.enabledTypes", "");
             optionsFirefox.addPreference("browser.helperApps.neverAsk.openFile", "application/octet-stream");
             optionsFirefox.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
-            driver = new FirefoxDriver(optionsFirefox);
+            WebDriverListener listener = new Listener();
+            driver = new EventFiringDecorator(listener).decorate(new FirefoxDriver(optionsFirefox));
         } else {
             throw new NoSuchElementException();
         }

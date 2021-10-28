@@ -9,12 +9,12 @@
 <!--            <class name = "tests.GameDescriptionTest"/>-->
         </classes>
     </test>
-<!--    <test name = "Test On Firefox">-->
-<!--        <parameter name = "BrowserType" value="Firefox"/>-->
-<!--        <classes>-->
-<!--            <class name = "tests.LoginTest"/>-->
-<!--&lt;!&ndash;            <class name = "tests.DownloadAppTest"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <class name = "tests.GameDescriptionTest"/>&ndash;&gt;-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name = "Test On Firefox">
+        <parameter name = "BrowserType" value="Firefox"/>
+        <classes>
+            <class name = "tests.LoginTest"/>
+<!--            <class name = "tests.DownloadAppTest"/>-->
+<!--            <class name = "tests.GameDescriptionTest"/>-->
+        </classes>
+    </test>
 </suite>
