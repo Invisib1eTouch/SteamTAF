@@ -2,11 +2,13 @@ package models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import org.openqa.selenium.WebElement;
 import pages.GameGenrePage;
 import utils.Utils;
 
 @AllArgsConstructor
+@ToString
 @Getter
 public class GameItemFromSearchResults {
     public WebElement name;

@@ -1,6 +1,7 @@
 package steps;
 
 import core.BrowserService;
+import io.qameta.allure.Step;
 import models.GenreCatalogGameItem;
 import org.openqa.selenium.JavascriptExecutor;
 import pages.GameGenrePage;
@@ -18,6 +19,7 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         return null;
     }
 
+    @Step("Find '{genreCatalogGameItem}' game item in search input.")
     public GameGenrePageSteps findGameItemBySearchInput(GenreCatalogGameItem genreCatalogGameItem) {
 //        showSearchResultsByJsScript();
         this.page.getSearchInput().clear();
@@ -29,6 +31,7 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         js.executeScript("arguments[0].setAttribute('style', 'display: block;');", this.page.getSearchResults());
     }
 
+    @Step("Open Game details page through Search Results.")
     public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(GenreCatalogGameItem genreCatalogGameItem) {
         if (this.page.getFirstFoundGameItemFromSearchInput().getNameAsString().equals(genreCatalogGameItem.getName())) {
             this.page.getFirstFoundGameItemFromSearchInput().getName().click();
