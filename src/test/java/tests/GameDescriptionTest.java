@@ -1,6 +1,7 @@
 package tests;
 
 import baseEntities.BaseTest;
+import io.qameta.allure.Description;
 import models.GameItemFromSearchResults;
 import models.GenreCatalogGameItem;
 import org.testng.Assert;
@@ -14,6 +15,7 @@ import java.util.List;
 public class GameDescriptionTest extends BaseTest {
 
     @Test
+    @Description("Compare game item data in Category game list, Search input and game details page.")
     public void gameTest() {
         MainPageSteps mainPageSteps = new MainPageSteps(browserService, true);
 

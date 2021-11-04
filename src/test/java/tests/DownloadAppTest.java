@@ -1,6 +1,7 @@
 package tests;
 
 import baseEntities.BaseTest;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.AboutPage;
@@ -12,6 +13,7 @@ import java.io.File;
 public class DownloadAppTest extends BaseTest {
 
     @Test(dataProvider = "InstallAppNames", dataProviderClass = StaticProvider.class)
+    @Description("Download steam installation app for any available platform.")
     public void downloadWinAppTest(String linkFileName, String downloadedFileName) throws InterruptedException {
         MainPageSteps mainPageSteps = new MainPageSteps(browserService, true);
 

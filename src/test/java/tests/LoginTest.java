@@ -1,6 +1,7 @@
 package tests;
 
 import baseEntities.BaseTest;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
@@ -10,6 +11,7 @@ import testData.StaticProvider;
 public class LoginTest extends BaseTest {
 
     @Test(dataProvider = "InvalidUserNameAndPassword", dataProviderClass = StaticProvider.class)
+    @Description("Login test with incorrect user credentials.")
     public void negativeLoginTest(String login, String password) {
         MainPageSteps mainPageSteps = new MainPageSteps(browserService, true);
         LoginPage loginPage = mainPageSteps

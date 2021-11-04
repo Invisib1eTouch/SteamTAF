@@ -19,16 +19,11 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         return null;
     }
 
-    @Step("Find '{genreCatalogGameItem}' game item in search input.")
+    @Step("Find game item with '{genreCatalogGameItem.name}' name in search input.")
     public GameGenrePageSteps findGameItemBySearchInput(GenreCatalogGameItem genreCatalogGameItem) {
-//        showSearchResultsByJsScript();
         this.page.getSearchInput().clear();
         this.page.getSearchInput().sendKeys(genreCatalogGameItem.getName());
         return this;
-    }
-
-    private void showSearchResultsByJsScript() {
-        js.executeScript("arguments[0].setAttribute('style', 'display: block;');", this.page.getSearchResults());
     }
 
     @Step("Open Game details page through Search Results.")
