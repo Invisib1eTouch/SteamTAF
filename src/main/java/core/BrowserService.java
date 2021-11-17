@@ -32,10 +32,14 @@ public class BrowserService {
             chromePrefs.put("safebrowsing.enabled", true);
             ChromeOptions optionsChrome = new ChromeOptions();
             optionsChrome.setExperimentalOption("prefs", chromePrefs);
-            optionsChrome.addArguments("--lang=en");
             optionsChrome.addArguments("--start-maximized");
             optionsChrome.addArguments("--safebrowsing-disable-download-protection");
             optionsChrome.addArguments("safebrowsing-disable-extension-blacklist");
+            if(PropertyReader.getLocalization().equalsIgnoreCase("ru")){
+                optionsChrome.addArguments("--lang=ru");
+            } else {
+                optionsChrome.addArguments("--lang=en");
+            }
             WebDriverListener listener = new Listener();
             driver = new EventFiringDecorator(listener).decorate(new ChromeDriver(optionsChrome));
         } else if (browserType.equalsIgnoreCase("firefox")) {
@@ -48,8 +52,16 @@ public class BrowserService {
             optionsFirefox.addPreference("browser.download.viewableInternally.enabledTypes", "");
             optionsFirefox.addPreference("browser.helperApps.neverAsk.openFile", "application/octet-stream");
             optionsFirefox.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
+            optionsFirefox.addPreference("permissions.fullscreen.allowed", false);
+
+            if(PropertyReader.getLocalization().equalsIgnoreCase("ru")){
+                optionsFirefox.addPreference("intl.accept_languages", "ru");
+            } else {
+                optionsFirefox.addPreference("intl.accept_languages", "en");
+            }
             WebDriverListener listener = new Listener();
             driver = new EventFiringDecorator(listener).decorate(new FirefoxDriver(optionsFirefox));
+            driver.manage().window().maximize();
         } else {
             throw new NoSuchElementException();
         }

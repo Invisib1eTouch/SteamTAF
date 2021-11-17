@@ -19,8 +19,8 @@ public class PropertyReader {
         return properties.getProperty("base.url");
     }
 
-    public static String getBrowserName() {
-        return properties.getProperty("browser");
+    public static String getLocalization() {
+        return properties.getProperty("localization");
     }
 
     public static int getTimeOut() {
