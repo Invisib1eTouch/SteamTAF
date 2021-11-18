@@ -2,10 +2,11 @@ package baseEntities;
 
 import core.BrowserService;
 import core.PropertyReader;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
+@Log4j2
 public abstract class BasePage {
     protected BrowserService browserService;
     protected WebDriver driver;
@@ -20,7 +21,14 @@ public abstract class BasePage {
 
     public void open() {
         if (this.path != null) {
-            this.driver.get(BASE_URL + path);
+            try{
+                this.driver.get(BASE_URL + path);
+            } catch (Error e){
+                String errMes = String.format("%s was not opened \nDetailed Message:\n%s",
+                        this.getClass().getSimpleName(), e.getMessage());
+                log.error(errMes);
+                throw new AssertionError(errMes);
+            }
         }
         verifyPageOpened();
     }
@@ -28,8 +36,11 @@ public abstract class BasePage {
     public void verifyPageOpened() {
         try {
             this.browserService.getWaiter().waitForVisibility(getIndicatorThatPageOpenedElementLocator());
-        } catch (TimeoutException e) {
-            throw new AssertionError("Page was not opened");
+        } catch (Error e) {
+            String errMes = String.format("%s was not opened \nDetailed Message:\n%s",
+                    this.getClass().getSimpleName(), e.getMessage());
+            log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 

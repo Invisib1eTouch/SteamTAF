@@ -1,6 +1,8 @@
 package pages;
 
 import core.BrowserService;
+import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import models.GenreCatalogGameItem;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -9,7 +11,9 @@ import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+@Log4j2
 public class GameDetailsPage extends CommonHeader {
     private static final By ageDropdownBy = By.id("ageYear");
     private static final By viewPageBtnBy = By.xpath("//a[@onclick = 'ViewProductPage(); return false;']");
@@ -56,10 +60,7 @@ public class GameDetailsPage extends CommonHeader {
     public GenreCatalogGameItem getGameItemFromDetailPage() {
 
         return new GenreCatalogGameItem(
-                /**
-                 * Create get() for extracting name from getGameAreaPurchaseGameItem()
-                 * */
-                Utils.replaceStringWithoutTradeMark(getGameAreaPurchaseGameItem().findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^\\w+\\s", "")),
+                Utils.replaceStringWithoutTradeMark(getGameAreaPurchaseGameItem().findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^[a-zA-Zа-яА-я]+\\s", "")),
                 getPriceWithDiscountIfExists(getGameAreaPurchaseGameItem()),
                 getFinalPrice(getGameAreaPurchaseGameItem()),
                 getDiscountIfExists(getGameAreaPurchaseGameItem()),
@@ -67,47 +68,75 @@ public class GameDetailsPage extends CommonHeader {
         );
     }
 
+    @SneakyThrows
     private Double getPriceWithDiscountIfExists(WebElement gameItem) {
-        if (gameItem.findElements(gameOriginalPriceBy).size() > 0) {
-            return Utils.getNumberFormString(gameItem.findElement(gameOriginalPriceBy).getText());
-        } else {
-            return null;
-        }
-    }
-
-    private Double getFinalPrice(WebElement gameItem) {
-        if (gameItem.findElements(gamePurchasePriceBy).size() > 0) {
-            if (gameItem.findElement(gamePurchasePriceBy).getText().contains("Free")) {
-                return 0.0;
+        try {
+            if (gameItem.findElements(gameOriginalPriceBy).size() > 0) {
+                return Utils.getNumberFormString(gameItem.findElement(gameOriginalPriceBy).getText());
             } else {
-                return Utils.getNumberFormString(gameItem.findElement(gamePurchasePriceBy).getText());
+                return null;
             }
-        } else if (gameItem.findElements(gameFinalPriceBy).size() > 0) {
-            return Utils.getNumberFormString(gameItem.findElement(gameFinalPriceBy).getText());
-        } else {
-            return 0.0;
+        } catch (Error e) {
+            var errMes = "Couldn't find original price. \nDetailed message: \n" + e.getMessage();
+            log.error(errMes);
+            throw new Exception(errMes);
         }
     }
 
+    @SneakyThrows
+    private Double getFinalPrice(WebElement gameItem) {
+        try {
+            if (gameItem.findElements(gamePurchasePriceBy).size() > 0) {
+                if (gameItem.findElement(gamePurchasePriceBy).getText().contains("Free")) {
+                    return 0.0;
+                } else {
+                    return Utils.getNumberFormString(gameItem.findElement(gamePurchasePriceBy).getText());
+                }
+            } else if (gameItem.findElements(gameFinalPriceBy).size() > 0) {
+                return Utils.getNumberFormString(gameItem.findElement(gameFinalPriceBy).getText());
+            } else {
+                return 0.0;
+            }
+        } catch (Error e) {
+            var errMes = "Couldn't find final price. \nDetailed message: \n" + e.getMessage();
+            log.error(errMes);
+            throw new Exception(errMes);
+        }
+    }
+
+    @SneakyThrows
     private Double getDiscountIfExists(WebElement gameItem) {
-        if (gameItem.findElements(gameDiscountBy).size() > 0) {
-            return Utils.getNumberFormString(gameItem.findElement(gameDiscountBy).getText());
-        } else {
-            return 0.0;
+        try {
+            if (gameItem.findElements(gameDiscountBy).size() > 0) {
+                return Utils.getNumberFormString(gameItem.findElement(gameDiscountBy).getText());
+            } else {
+                return 0.0;
+            }
+        } catch (Error e) {
+            var errMes = "Couldn't find discount. \nDetailed message: \n" + e.getMessage();
+            log.error(errMes);
+            throw new Exception(errMes);
         }
     }
 
+    @SneakyThrows
     private List<GenreCatalogGameItem.Platform> getPlatforms(WebElement gameItem) {
-        List<GenreCatalogGameItem.Platform> platformList = new ArrayList<>();
-        if (gameItem.findElements(winPlatformIconBy).size() > 0) {
-            platformList.add(GenreCatalogGameItem.Platform.WINDOWS);
+        try {
+            List<GenreCatalogGameItem.Platform> platformList = new ArrayList<>();
+            if (gameItem.findElements(winPlatformIconBy).size() > 0) {
+                platformList.add(GenreCatalogGameItem.Platform.WINDOWS);
+            }
+            if (gameItem.findElements(macPlatformIconBy).size() > 0) {
+                platformList.add(GenreCatalogGameItem.Platform.MAC);
+            }
+            if (gameItem.findElements(linuxPlatformIconBy).size() > 0) {
+                platformList.add(GenreCatalogGameItem.Platform.LINUX);
+            }
+            return platformList;
+        } catch (Error e) {
+            var errMes = "Couldn't find platform. \nDetailed message: \n" + e.getMessage();
+            log.error(errMes);
+            throw new Exception(errMes);
         }
-        if (gameItem.findElements(macPlatformIconBy).size() > 0) {
-            platformList.add(GenreCatalogGameItem.Platform.MAC);
-        }
-        if (gameItem.findElements(linuxPlatformIconBy).size() > 0) {
-            platformList.add(GenreCatalogGameItem.Platform.LINUX);
-        }
-        return platformList;
     }
 }

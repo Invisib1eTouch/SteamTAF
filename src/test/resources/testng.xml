@@ -4,8 +4,8 @@
     <test name = "Test On Chrome">
         <parameter name = "BrowserType" value="Chrome"/>
         <classes>
-            <class name = "tests.LoginTest"/>
-<!--            <class name = "tests.DownloadAppTest"/>-->
+<!--            <class name = "tests.LoginTest"/>-->
+            <class name = "tests.DownloadAppTest"/>
 <!--            <class name = "tests.GameDescriptionTest"/>-->
         </classes>
     </test>
@@ -13,8 +13,8 @@
 <!--        <parameter name = "BrowserType" value="Firefox"/>-->
 <!--        <classes>-->
 <!--            <class name = "tests.LoginTest"/>-->
-<!--&lt;!&ndash;            <class name = "tests.DownloadAppTest"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <class name = "tests.GameDescriptionTest"/>&ndash;&gt;-->
+<!--            <class name = "tests.DownloadAppTest"/>-->
+<!--            <class name = "tests.GameDescriptionTest"/>-->
 <!--        </classes>-->
 <!--    </test>-->
 </suite>
