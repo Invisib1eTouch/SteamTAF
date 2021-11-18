@@ -7,8 +7,8 @@ public class StaticProvider {
 
     @DataProvider(name = "InvalidUserNameAndPassword")
     public static Object[][] loginWithInvalidUserNameAndPassword() {
-        if (PropertyReader.getLocalization().equalsIgnoreCase("ru")){
-             return new Object[][]{
+        if (PropertyReader.getLocalization().equalsIgnoreCase("ru")) {
+            return new Object[][]{
                     {"!#$%^&*()_+-=`~[]{}|;':,./<>?", "_+-=`~[]{}|;':,./<>?!@#$%^&*()", "Неверное имя аккаунта или пароль."},
                     {"user", "password", "Неверное имя аккаунта или пароль."},
                     {"<b>text</b>", "<b>text</b>", "Неверное имя аккаунта или пароль."},
@@ -25,6 +25,7 @@ public class StaticProvider {
             };
         }
     }
+
 
     @DataProvider(name = "InstallAppNames")
     public static Object[][] installationAppNames() {

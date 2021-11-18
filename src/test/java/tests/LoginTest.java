@@ -12,13 +12,13 @@ public class LoginTest extends BaseTest {
 
     @Test(dataProvider = "InvalidUserNameAndPassword", dataProviderClass = StaticProvider.class)
     @Description("Login test with incorrect user credentials.")
-    public void negativeLoginTest(String login, String password) {
+    public void negativeLoginTest(String login, String password, String alertText) {
         MainPageSteps mainPageSteps = new MainPageSteps(browserService, true);
         LoginPage loginPage = mainPageSteps
                 .proceedToLoginPageByButton()
                 .loginWithIncorrectCredentials(login, password)
                 .getPageInstance();
 
-        Assert.assertEquals(loginPage.getErrorMessage().getText(), "The account name or password that you have entered is incorrect.");
+        Assert.assertEquals(loginPage.getErrorMessage().getText(), alertText);
     }
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Cross Browser Testing">
-<!--    <test name = "Test On Chrome">-->
-<!--        <parameter name = "BrowserType" value="Chrome"/>-->
-<!--        <classes>-->
-<!--&lt;!&ndash;            <class name = "tests.LoginTest"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <class name = "tests.DownloadAppTest"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <class name = "tests.GameDescriptionTest"/>&ndash;&gt;-->
-<!--        </classes>-->
-<!--    </test>-->
-    <test name = "Test On Firefox">
-        <parameter name = "BrowserType" value="Firefox"/>
+    <test name = "Test On Chrome">
+        <parameter name = "BrowserType" value="Chrome"/>
         <classes>
             <class name = "tests.LoginTest"/>
 <!--            <class name = "tests.DownloadAppTest"/>-->
 <!--            <class name = "tests.GameDescriptionTest"/>-->
         </classes>
     </test>
+<!--    <test name = "Test On Firefox">-->
+<!--        <parameter name = "BrowserType" value="Firefox"/>-->
+<!--        <classes>-->
+<!--            <class name = "tests.LoginTest"/>-->
+<!--&lt;!&ndash;            <class name = "tests.DownloadAppTest"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <class name = "tests.GameDescriptionTest"/>&ndash;&gt;-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>
