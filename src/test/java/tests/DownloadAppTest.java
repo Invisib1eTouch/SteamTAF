@@ -1,6 +1,7 @@
 package tests;
 
 import baseEntities.BaseTest;
+import core.PropertyReader;
 import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -9,6 +10,7 @@ import steps.MainPageSteps;
 import testData.StaticProvider;
 
 import java.io.File;
+import java.util.Objects;
 
 public class DownloadAppTest extends BaseTest {
 
@@ -30,25 +32,32 @@ public class DownloadAppTest extends BaseTest {
         }
 
         boolean flag = false;
+
+        int timer = 0;
+
         while (!flag) {
-            if (folder.listFiles().length < 1) {
+            if (Objects.requireNonNull(folder.listFiles()).length < 1) {
+                timer++;
                 Thread.sleep(1000);
             } else {
                 File[] listOfFiles = folder.listFiles();
 
-                boolean found = false;
-
-                for (File listOfFile : listOfFiles) {
-                    if (listOfFile.isFile()) {
-                        if (listOfFile.getName().matches(downloadedFileName)) {
-                            File f = new File(String.valueOf(listOfFile.getAbsoluteFile()));
-                            found = true;
+                for (File fileFromList : Objects.requireNonNull(listOfFiles)) {
+                    if (fileFromList.isFile()) {
+                        if (fileFromList.getName().matches(downloadedFileName)) {
+                            File f = new File(String.valueOf(fileFromList.getAbsoluteFile()));
+                            flag = true;
                             f.delete();
+                            Assert.assertEquals(fileFromList.getName(), downloadedFileName);
+                        } else {
+                            timer++;
+                            Thread.sleep(1000);
                         }
                     }
                 }
-                Assert.assertTrue(found, "Downloaded document is not found");
-                flag = true;
+            }
+            if (timer == PropertyReader.getTimeOut()) {
+                throw new AssertionError("Timeout for downloading the file.");
             }
         }
     }
