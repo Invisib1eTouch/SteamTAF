@@ -11,7 +11,6 @@ import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Log4j2
 public class GameDetailsPage extends CommonHeader {
@@ -60,12 +59,23 @@ public class GameDetailsPage extends CommonHeader {
     public GenreCatalogGameItem getGameItemFromDetailPage() {
 
         return new GenreCatalogGameItem(
-                Utils.replaceStringWithoutTradeMark(getGameAreaPurchaseGameItem().findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^[a-zA-Zа-яА-я]+\\s", "")),
+                getGameName(getGameAreaPurchaseGameItem()),
                 getPriceWithDiscountIfExists(getGameAreaPurchaseGameItem()),
                 getFinalPrice(getGameAreaPurchaseGameItem()),
                 getDiscountIfExists(getGameAreaPurchaseGameItem()),
                 getPlatforms(getGameAreaPurchaseGameItem())
         );
+    }
+
+    @SneakyThrows
+    private String getGameName(WebElement gameItem){
+        try {
+            return Utils.replaceStringWithoutTradeMark(gameItem.findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^[a-zA-Zа-яА-я]+\\s", ""));
+        } catch (Error e) {
+            var errMes = "Couldn't get game name. \nDetailed message: \n" + e.getMessage();
+            log.error(errMes);
+            throw new Exception(errMes);
+        }
     }
 
     @SneakyThrows

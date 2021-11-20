@@ -4,17 +4,17 @@
     <test name = "Test On Chrome">
         <parameter name = "BrowserType" value="Chrome"/>
         <classes>
-<!--            <class name = "tests.LoginTest"/>-->
+            <class name = "tests.LoginTest"/>
             <class name = "tests.DownloadAppTest"/>
-<!--            <class name = "tests.GameDescriptionTest"/>-->
+            <class name = "tests.GameDescriptionTest"/>
         </classes>
     </test>
-<!--    <test name = "Test On Firefox">-->
-<!--        <parameter name = "BrowserType" value="Firefox"/>-->
-<!--        <classes>-->
-<!--            <class name = "tests.LoginTest"/>-->
-<!--            <class name = "tests.DownloadAppTest"/>-->
-<!--            <class name = "tests.GameDescriptionTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name = "Test On Firefox">
+        <parameter name = "BrowserType" value="Firefox"/>
+        <classes>
+            <class name = "tests.LoginTest"/>
+            <class name = "tests.DownloadAppTest"/>
+            <class name = "tests.GameDescriptionTest"/>
+        </classes>
+    </test>
 </suite>

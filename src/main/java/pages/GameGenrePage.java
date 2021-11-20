@@ -24,11 +24,9 @@ public class GameGenrePage extends CommonHeader {
     private static final By macPlatformIconBy = By.className("mac");
     private static final By linuxPlatformIconBy = By.className("linux");
     private static final By searchInputBy = By.id("store_nav_search_term");
-    private static final By searchResultsBy = By.id("searchterm_options");
     private static final By searchResultItemsBy = By.cssSelector("#searchterm_options a");
     private static final By itemNameFromSearchResultsInputBy = By.className("match_name");
     private static final By itemFinalPriceFromSearchResultsInputBy = By.className("match_price");
-
 
     public GameGenrePage(BrowserService browserService) {
         super(browserService, null);
@@ -61,8 +59,17 @@ public class GameGenrePage extends CommonHeader {
         }
 
         for (int i = 0; i < numberOfGameItems; i++) {
+            if (Utils.isContainHieroglyphs(getGameName(getGameItems().get(i)))) {
+                if (numberOfGameItems < getGameItems().size()) {
+                    numberOfGameItems++;
+                    log.warn("The game item with " + getGameName(getGameItems().get(i)) + " is skipped.");
+                    continue;
+                } else {
+                    break;
+                }
+            }
             GenreCatalogGameItem genreCatalogGameItem = new GenreCatalogGameItem(
-                    Utils.replaceStringWithoutTradeMark(getGameItems().get(i).findElement(gamesNameBy).getText()),
+                    getGameName(getGameItems().get(i)),
                     getPriceWithDiscountIfExists(getGameItems().get(i)),
                     getFinalPrice(getGameItems().get(i), gameFinalPriceBy),
                     getDiscountIfExists(getGameItems().get(i)),
@@ -71,6 +78,17 @@ public class GameGenrePage extends CommonHeader {
             genreCatalogGameItems.add(genreCatalogGameItem);
         }
         return genreCatalogGameItems;
+    }
+
+    @SneakyThrows
+    private String getGameName(WebElement gameItem) {
+        try {
+            return Utils.replaceStringWithoutTradeMark(gameItem.findElement(gamesNameBy).getText());
+        } catch (Error e) {
+            var errMes = "Couldn't get game name. \nDetailed message: \n" + e.getMessage();
+            log.error(errMes);
+            throw new Exception(errMes);
+        }
     }
 
     @SneakyThrows
@@ -95,7 +113,6 @@ public class GameGenrePage extends CommonHeader {
     @SneakyThrows
     public static Double getFinalPrice(WebElement gameFinalPriceLocator) {
         try {
-
             String gamePrice = gameFinalPriceLocator.getText();
             if (gamePrice.contains("Free") || gamePrice.equals("")) {
                 return 0.0;
@@ -162,10 +179,6 @@ public class GameGenrePage extends CommonHeader {
 
     public WebElement getSearchInput() {
         return this.browserService.getDriver().findElement(searchInputBy);
-    }
-
-    public WebElement getSearchResults() {
-        return this.browserService.getDriver().findElement(searchResultsBy);
     }
 
     public List<WebElement> getSearchResultItems() {

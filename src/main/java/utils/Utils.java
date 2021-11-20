@@ -13,12 +13,18 @@ public class Utils {
 
     public static Double getNumberFormString(String text) {
         Matcher m = Pattern.compile("\\d+(?:\\.?\\d*)").matcher(Objects.requireNonNull(text));
-        if (m.find())
+        if (m.find()) {
             return Double.parseDouble(m.group(0));
+        }
         throw new IllegalStateException(String.format("No pattern match found in provided text: %s", text));
     }
 
     public static String replaceStringWithoutTradeMark(String text) {
         return text.replace("™", "");
+    }
+
+    public static boolean isContainHieroglyphs(String text) {
+        Matcher m = Pattern.compile("[\\u3400-\\u9FFF]").matcher(Objects.requireNonNull(text));
+        return m.find();
     }
 }

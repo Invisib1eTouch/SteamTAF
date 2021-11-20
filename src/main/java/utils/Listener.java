@@ -1,7 +1,6 @@
 package utils;
 
 import baseEntities.BaseTest;
-import core.BrowserService;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.WebDriverListener;
