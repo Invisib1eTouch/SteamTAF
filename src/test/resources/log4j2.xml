@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration status="WARN">
+    <Appenders>
+        <File name="LogFile" fileName="target/logs/logFile.log">
+            <PatternLayout>
+                <Pattern>[%-5p] [%d] %c.%M - %msg%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5p] [%d] %c.%M - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="LogFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>
