@@ -1,6 +1,7 @@
 package baseEntities;
 
 import core.BrowserService;
+import core.PropertyReader;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,11 +17,10 @@ public class BaseTest {
     protected SoftAssert softAssert;
 
     @BeforeMethod
-    @Parameters({"BrowserType"})
-    public void setupClass(String browserType) {
+    public void setupClass() {
         softAssert = new SoftAssert();
-        browserService = new BrowserService(browserType);
-        log.info("The BrowserService with " + browserType + " is initialized.");
+        browserService = new BrowserService();
+        log.info("The BrowserService with " + PropertyReader.getBrowserName() + " is initialized.");
     }
 
     @AfterMethod

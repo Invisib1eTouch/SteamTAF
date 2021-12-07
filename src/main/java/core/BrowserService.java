@@ -19,9 +19,9 @@ import java.util.NoSuchElementException;
 public class BrowserService {
     private WebDriver driver;
 
-    public BrowserService(String browserType) {
+    public BrowserService() {
         DriverManagerType driverManagerType;
-        if (browserType.equalsIgnoreCase("Chrome")) {
+        if (PropertyReader.getBrowserName().equalsIgnoreCase("Chrome")) {
             driverManagerType = DriverManagerType.CHROME;
             WebDriverManager.getInstance(driverManagerType).setup();
             HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
@@ -35,14 +35,14 @@ public class BrowserService {
             optionsChrome.addArguments("--start-maximized");
             optionsChrome.addArguments("--safebrowsing-disable-download-protection");
             optionsChrome.addArguments("safebrowsing-disable-extension-blacklist");
-            if(PropertyReader.getLocalization().equalsIgnoreCase("ru")){
+            if (PropertyReader.getLocalization().equalsIgnoreCase("ru")) {
                 optionsChrome.addArguments("--lang=ru");
             } else {
                 optionsChrome.addArguments("--lang=en");
             }
             WebDriverListener listener = new Listener();
             driver = new EventFiringDecorator(listener).decorate(new ChromeDriver(optionsChrome));
-        } else if (browserType.equalsIgnoreCase("firefox")) {
+        } else if (PropertyReader.getBrowserName().equalsIgnoreCase("firefox")) {
             driverManagerType = DriverManagerType.FIREFOX;
             WebDriverManager.getInstance(driverManagerType).setup();
             FirefoxOptions optionsFirefox = new FirefoxOptions();
@@ -54,7 +54,7 @@ public class BrowserService {
             optionsFirefox.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream");
             optionsFirefox.addPreference("permissions.fullscreen.allowed", false);
 
-            if(PropertyReader.getLocalization().equalsIgnoreCase("ru")){
+            if (PropertyReader.getLocalization().equalsIgnoreCase("ru")) {
                 optionsFirefox.addPreference("intl.accept_languages", "ru");
             } else {
                 optionsFirefox.addPreference("intl.accept_languages", "en");

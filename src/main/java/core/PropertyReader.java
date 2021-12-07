@@ -27,6 +27,10 @@ public class PropertyReader {
         return properties.getProperty("localization");
     }
 
+    public static String getBrowserName() {
+        return properties.getProperty("browser");
+    }
+
     public static int getTimeOut() {
         return Integer.parseInt(properties.getProperty("timeout"));
     }
