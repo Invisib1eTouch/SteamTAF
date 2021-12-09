@@ -2,13 +2,11 @@ package steps;
 
 import core.BrowserService;
 import io.qameta.allure.Step;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
 import models.GenreCatalogGameItem;
 import org.openqa.selenium.JavascriptExecutor;
 import pages.GameGenrePage;
+import utils.Logger;
 
-@Log4j2
 public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
     JavascriptExecutor js;
 
@@ -29,7 +27,6 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
         return this;
     }
 
-    @SneakyThrows
     @Step("Open Game details page through Search Results.")
     public GameDetailsPageSteps proceedToGameDetailsPageBySearchResults(GenreCatalogGameItem genreCatalogGameItem) {
         if (this.page.getFirstFoundGameItemFromSearchInput().getNameAsString().equals(genreCatalogGameItem.getName())) {
@@ -37,8 +34,8 @@ public class GameGenrePageSteps extends CommonHeaderSteps<GameGenrePage> {
             return new GameDetailsPageSteps(browserService);
         } else {
             var errMes = "The name of the first game item from Search input doesn't equal searching item.";
-            log.fatal(errMes);
-            throw new Exception(errMes);
+            Logger.log.fatal(errMes);
+            throw new AssertionError(errMes);
         }
     }
 }

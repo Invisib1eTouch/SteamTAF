@@ -15,7 +15,7 @@ public class LoginPage extends CommonHeader {
     }
 
     @Override
-    protected By getIndicatorThatPageOpenedElementLocator() {
+    protected By getPageOpenedIndicatorBy() {
         return signInBtnBy;
     }
 

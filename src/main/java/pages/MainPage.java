@@ -15,7 +15,7 @@ public class MainPage extends CommonHeader {
     }
 
     @Override
-    protected By getIndicatorThatPageOpenedElementLocator() {
+    protected By getPageOpenedIndicatorBy() {
         return categoryBtnBy;
     }
 

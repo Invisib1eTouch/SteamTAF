@@ -1,19 +1,17 @@
 package pages;
 
 import core.BrowserService;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
 import models.GameItemFromSearchResults;
 import models.GenreCatalogGameItem;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import utils.Logger;
 import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j2
 public class GameGenrePage extends CommonHeader {
     private static final By gamesTableBy = By.id("NewReleasesRows");
     private static final By gamesNameBy = By.className("tab_item_name");
@@ -33,22 +31,20 @@ public class GameGenrePage extends CommonHeader {
     }
 
     @Override
-    protected By getIndicatorThatPageOpenedElementLocator() {
+    protected By getPageOpenedIndicatorBy() {
         return gamesTableBy;
     }
 
-    @SneakyThrows
     private List<WebElement> getGameItems() {
         try {
             return this.browserService.getDriver().findElement(gamesTableBy).findElements(By.tagName("a"));
         } catch (NoSuchElementException e) {
             var errMes = "Couldn't find game item. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     public List<GenreCatalogGameItem> getGameItemsFromTable(int numberOfGameItems) {
         List<GenreCatalogGameItem> genreCatalogGameItems = new ArrayList<>();
         if (numberOfGameItems > getGameItems().size()) {
@@ -62,7 +58,7 @@ public class GameGenrePage extends CommonHeader {
             if (Utils.isContainHieroglyphs(getGameName(getGameItems().get(i)))) {
                 if (numberOfGameItems < getGameItems().size()) {
                     numberOfGameItems++;
-                    log.warn("The game item with " + getGameName(getGameItems().get(i)) + " is skipped.");
+                    Logger.log.warn("The game item with " + getGameName(getGameItems().get(i)) + " is skipped.");
                     continue;
                 } else {
                     break;
@@ -80,18 +76,16 @@ public class GameGenrePage extends CommonHeader {
         return genreCatalogGameItems;
     }
 
-    @SneakyThrows
     private String getGameName(WebElement gameItem) {
         try {
             return Utils.replaceStringWithoutTradeMark(gameItem.findElement(gamesNameBy).getText());
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't get game name. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private Double getFinalPrice(WebElement gameItem, By gameFinalPriceLocator) {
         try {
             if (gameItem.findElements(gameFinalPriceLocator).size() == 0) {
@@ -103,14 +97,13 @@ public class GameGenrePage extends CommonHeader {
             } else {
                 return Utils.getNumberFormString(gamePrice);
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't get final price. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     public static Double getFinalPrice(WebElement gameFinalPriceLocator) {
         try {
             String gamePrice = gameFinalPriceLocator.getText();
@@ -119,14 +112,13 @@ public class GameGenrePage extends CommonHeader {
             } else {
                 return Utils.getNumberFormString(gamePrice);
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't get final price. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private Double getPriceWithDiscountIfExists(WebElement gameItem) {
         try {
             if (gameItem.findElements(gameOriginalPriceBy).size() > 0) {
@@ -134,14 +126,13 @@ public class GameGenrePage extends CommonHeader {
             } else {
                 return null;
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't get price with discount. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private Double getDiscountIfExists(WebElement gameItem) {
         try {
             if (gameItem.findElements(gameDiscountBy).size() > 0) {
@@ -149,14 +140,13 @@ public class GameGenrePage extends CommonHeader {
             } else {
                 return 0.0;
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't find discount. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private List<GenreCatalogGameItem.Platform> getPlatforms(WebElement gameItem) {
         try {
             List<GenreCatalogGameItem.Platform> platformList = new ArrayList<>();
@@ -170,10 +160,10 @@ public class GameGenrePage extends CommonHeader {
                 platformList.add(GenreCatalogGameItem.Platform.LINUX);
             }
             return platformList;
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't find platform. \nDetailed message: \n" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new AssertionError(errMes);
         }
     }
 

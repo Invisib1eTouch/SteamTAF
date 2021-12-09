@@ -14,12 +14,11 @@ public class AboutPage extends CommonHeader {
     }
 
     @Override
-    protected By getIndicatorThatPageOpenedElementLocator() {
+    protected By getPageOpenedIndicatorBy() {
         return mainInstallSteamBtnBy;
     }
 
     public WebElement getInstallSteamBtn(String fileName) {
         return this.browserService.getDriver().findElement(By.xpath(String.format(installSteamBtn, fileName)));
     }
-
 }

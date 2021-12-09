@@ -1,24 +1,39 @@
 package models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
 import org.openqa.selenium.WebElement;
 import pages.GameGenrePage;
 import utils.Utils;
 
-@AllArgsConstructor
-@ToString
-@Getter
 public class GameItemFromSearchResults {
     public WebElement name;
     public WebElement price;
 
-    public String getNameAsString(){
+    public GameItemFromSearchResults(WebElement name, WebElement price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getNameAsString() {
         return Utils.replaceStringWithoutTradeMark(name.getText());
     }
 
-    public Double getFinalPriceAsDouble(){
+    public Double getFinalPriceAsDouble() {
         return GameGenrePage.getFinalPrice(price);
+    }
+
+    public WebElement getName() {
+        return name;
+    }
+
+    public WebElement getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return "GameItemFromSearchResults{" +
+                "name=" + name +
+                ", price=" + price +
+                '}';
     }
 }

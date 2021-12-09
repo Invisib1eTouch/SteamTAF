@@ -1,20 +1,21 @@
 package baseEntities;
 
 import core.BrowserService;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
+import utils.Logger;
 
 import java.lang.reflect.ParameterizedType;
 
-@Log4j2
 public abstract class BaseStep<Page extends BasePage> {
     protected BrowserService browserService;
     protected Page page;
 
-    @SuppressWarnings("unchecked")
     public BaseStep(BrowserService browserService, boolean openPageByUrl) {
         this.browserService = browserService;
-        this.page = getPageInstance();
+        try {
+            this.page = getPageInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (openPageByUrl) {
             this.page.open();
@@ -22,8 +23,6 @@ public abstract class BaseStep<Page extends BasePage> {
         this.page.verifyPageOpened();
     }
 
-    @SneakyThrows
-    @SuppressWarnings("unchecked")
     public Page getPageInstance() {
         if (this.page != null) return this.page;
         Page page = null;
@@ -33,8 +32,8 @@ public abstract class BaseStep<Page extends BasePage> {
                     .newInstance(this.browserService);
         } catch (Exception e) {
             String errMes = "Page instance was not initialised:" + e.getMessage();
-            log.error(errMes);
-            throw new Exception(errMes);
+            Logger.log.error(errMes);
+            throw new ExceptionInInitializerError();
         }
         return page;
     }

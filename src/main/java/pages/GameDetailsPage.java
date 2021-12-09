@@ -1,10 +1,11 @@
 package pages;
 
 import core.BrowserService;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
 import models.GenreCatalogGameItem;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.Utils;
@@ -12,7 +13,6 @@ import utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j2
 public class GameDetailsPage extends CommonHeader {
     private static final By ageDropdownBy = By.id("ageYear");
     private static final By viewPageBtnBy = By.xpath("//a[@onclick = 'ViewProductPage(); return false;']");
@@ -26,13 +26,14 @@ public class GameDetailsPage extends CommonHeader {
     private static final By winPlatformIconBy = By.className("win");
     private static final By macPlatformIconBy = By.className("mac");
     private static final By linuxPlatformIconBy = By.className("linux");
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(GameDetailsPage.class);
 
     public GameDetailsPage(BrowserService browserService) {
         super(browserService, null);
     }
 
     @Override
-    protected By getIndicatorThatPageOpenedElementLocator() {
+    protected By getPageOpenedIndicatorBy() {
         return pageContentBy;
     }
 
@@ -67,18 +68,16 @@ public class GameDetailsPage extends CommonHeader {
         );
     }
 
-    @SneakyThrows
     private String getGameName(WebElement gameItem){
         try {
             return Utils.replaceStringWithoutTradeMark(gameItem.findElement(gameNameFromPurchaseGameItemBy).getText().replaceFirst("^[a-zA-Zа-яА-я]+\\s", ""));
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't get game name. \nDetailed message: \n" + e.getMessage();
             log.error(errMes);
-            throw new Exception(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private Double getPriceWithDiscountIfExists(WebElement gameItem) {
         try {
             if (gameItem.findElements(gameOriginalPriceBy).size() > 0) {
@@ -86,14 +85,13 @@ public class GameDetailsPage extends CommonHeader {
             } else {
                 return null;
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't find original price. \nDetailed message: \n" + e.getMessage();
             log.error(errMes);
-            throw new Exception(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private Double getFinalPrice(WebElement gameItem) {
         try {
             if (gameItem.findElements(gamePurchasePriceBy).size() > 0) {
@@ -107,14 +105,13 @@ public class GameDetailsPage extends CommonHeader {
             } else {
                 return 0.0;
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't find final price. \nDetailed message: \n" + e.getMessage();
             log.error(errMes);
-            throw new Exception(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private Double getDiscountIfExists(WebElement gameItem) {
         try {
             if (gameItem.findElements(gameDiscountBy).size() > 0) {
@@ -122,14 +119,13 @@ public class GameDetailsPage extends CommonHeader {
             } else {
                 return 0.0;
             }
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't find discount. \nDetailed message: \n" + e.getMessage();
             log.error(errMes);
-            throw new Exception(errMes);
+            throw new AssertionError(errMes);
         }
     }
 
-    @SneakyThrows
     private List<GenreCatalogGameItem.Platform> getPlatforms(WebElement gameItem) {
         try {
             List<GenreCatalogGameItem.Platform> platformList = new ArrayList<>();
@@ -143,10 +139,10 @@ public class GameDetailsPage extends CommonHeader {
                 platformList.add(GenreCatalogGameItem.Platform.LINUX);
             }
             return platformList;
-        } catch (Error e) {
+        } catch (Exception e) {
             var errMes = "Couldn't find platform. \nDetailed message: \n" + e.getMessage();
             log.error(errMes);
-            throw new Exception(errMes);
+            throw new AssertionError(errMes);
         }
     }
 }

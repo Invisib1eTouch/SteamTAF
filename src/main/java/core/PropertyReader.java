@@ -1,11 +1,10 @@
 package core;
 
-import lombok.extern.log4j.Log4j2;
+import utils.Logger;
 
 import java.io.IOException;
 import java.util.Properties;
 
-@Log4j2
 public class PropertyReader {
     protected static Properties properties;
 
@@ -14,7 +13,7 @@ public class PropertyReader {
         try {
             properties.load(PropertyReader.class.getClassLoader().getResourceAsStream("config.properties"));
         } catch (IOException e) {
-            log.error(e.getMessage());
+            Logger.log.error(e.getMessage());
             e.printStackTrace();
         }
     }
